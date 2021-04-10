@@ -1,4 +1,4 @@
-class Book {
+class Book { 
   int id;
   String name;
   
