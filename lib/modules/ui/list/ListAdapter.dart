@@ -26,35 +26,3 @@ class ListAdapter{
   }
 
 }
-
-/*
-class Teste{
-  Function _onError;
-  Function _onSuccess;
-
-  Teste(Function onSuccess, Function onError){
-    this._onSuccess = onSuccess;
-    this._onError = onError;
-  }
-
-  void onError() {
-    // TODO: implement onError
-    _onError();
-  }
-
-  void onSuccess() {
-    // TODO: implement onSuccess
-    _onSuccess();
-  }
-}
-
-class Teste2{
-  void novo(){
-    Teste teste = Teste(
-        (){},
-        (){}
-    );
-  }
-}
-
- */
