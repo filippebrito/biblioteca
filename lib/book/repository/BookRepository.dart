@@ -24,7 +24,7 @@ class BookRepository extends BaseRepository{
     int id = book.id;
 
     String sql = "DELETE FROM $DB_NAME WHERE id = $id";
-
+print(sql);
     await deleteDB(sql);
   }
 

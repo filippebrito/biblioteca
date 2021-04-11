@@ -62,6 +62,7 @@ class BookPresenterImpl implements BookPresenter{
   void delete(Book book) async{
     repository.delete(book);
     select();
+    cleanCloseDialog();
   }
 
   @override
@@ -75,7 +76,7 @@ class BookPresenterImpl implements BookPresenter{
     if(book == null) {
       book = Book(name: name);
     }
-    this.view.updateDialogText(name);
+    book.name = name;
     this.view.updateBook(book);
   }
 
