@@ -93,7 +93,7 @@ class _BookView extends State<BookViewImpl> implements BookView{
         .title("Book")
         .question("Are you craze man?")
         .buttonCancel(new DialogButton('CANCEL', this.widget.presenter.cleanCloseDialog))
-        .buttonOk(new DialogButton('OK', (){ this.widget.presenter.delete(_book); }))
+        .buttonOk(new DialogButton('OK', (){ this.widget.presenter.delete(book); }))
         .build()
         .open();
   }

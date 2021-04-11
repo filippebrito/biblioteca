@@ -16,7 +16,6 @@ class BookRepository extends BaseRepository{
     String name = book.name;
 
     String sql = "UPDATE $DB_NAME SET name = '$name' WHERE id = $id";
-
     await updateDB(sql);
   }
 
@@ -24,7 +23,6 @@ class BookRepository extends BaseRepository{
     int id = book.id;
 
     String sql = "DELETE FROM $DB_NAME WHERE id = $id";
-print(sql);
     await deleteDB(sql);
   }
 
