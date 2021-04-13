@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:biblioteca/book/view/BookView.dart';
 
 void main() => runApp(MaterialApp(
+  debugShowCheckedModeBanner: false,
   title: 'Library Routes',
   initialRoute: '/',
   routes: {
