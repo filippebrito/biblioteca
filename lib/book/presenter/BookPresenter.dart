@@ -4,6 +4,7 @@ import 'package:biblioteca/book/view/BookView.dart';
 import 'package:biblioteca/modules/ui/dialog/enum/DialogType.dart';
 
 abstract class BookPresenter {
+  BookView getView();
   void setView(BookView view);
   void openDialog({DialogType type: DialogType.INSERT, Book book});
   void openTextDialog(Book book);
@@ -23,6 +24,10 @@ class BookPresenterImpl implements BookPresenter{
     this.repository = BookRepository();
   }
 
+  @override
+  BookView getView(){
+    return this.view;
+  }
   @override
   void setView(BookView view){
     this.view = view;
