@@ -1,6 +1,7 @@
 import 'package:biblioteca/book/model/Book.dart';
 import 'package:biblioteca/book/repository/BookRepository.dart';
 import 'package:biblioteca/book/view/BookView.dart';
+import 'package:biblioteca/modules/alerts/Alert.dart';
 import 'package:biblioteca/modules/ui/dialog/enum/DialogType.dart';
 
 abstract class BookPresenter {
@@ -56,8 +57,10 @@ class BookPresenterImpl implements BookPresenter{
   void insertEdit(DialogType type, Book book){
     if(type == DialogType.EDIT) {
       repository.update(book);
+      view.showMessage("Success update", AlertType.ALERT);
     }else{
       repository.insert(book);
+      view.showMessage("Success insert", AlertType.SUCCESS);
     }
     select();
     cleanCloseDialog();
@@ -68,6 +71,7 @@ class BookPresenterImpl implements BookPresenter{
     repository.delete(book);
     select();
     cleanCloseDialog();
+    view.showMessage("Success delete", AlertType.ERROR);
   }
 
   @override

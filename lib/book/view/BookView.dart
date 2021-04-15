@@ -1,6 +1,8 @@
 
 import 'package:biblioteca/book/model/Book.dart';
 import 'package:biblioteca/book/presenter/BookPresenter.dart';
+import 'package:biblioteca/modules/alerts/Alert.dart';
+import 'package:biblioteca/modules/ui/appbar/Appbar.dart';
 import 'package:biblioteca/modules/ui/dialog/Dialog.dart';
 import 'package:biblioteca/modules/ui/dialog/enum/DialogType.dart';
 import 'package:biblioteca/modules/ui/drawer/DrawerUi.dart';
@@ -16,6 +18,7 @@ abstract class BookView{
   Future<void> openDialog({DialogType type: DialogType.INSERT, Book book});
   Future<void> openTextDialog(Book book);
   void closeDialog();
+  void showMessage(String message, AlertType type);
 }
 
 class BookViewImpl extends StatefulWidget {
@@ -73,6 +76,16 @@ class _BookView extends State<BookViewImpl> implements BookView{
   }
 
   @override
+  void showMessage(String message, AlertType type){
+    AlertBuilder()
+        .scaffold(_scaffoldKey)
+        .message(message)
+        .type(type)
+        .build()
+        .show();
+  }
+
+  @override
   Future<void> openDialog({DialogType type: DialogType.INSERT, Book book}) async {
 
     return DialogBuilder()
@@ -108,32 +121,48 @@ class _BookView extends State<BookViewImpl> implements BookView{
         .open();
   }
 
+  Widget _getBody(){
+    if(_listBooks.length > 0){
+      return ListView.separated(
+          padding: const EdgeInsets.all(8),
+          itemCount: _listBooks.length,
+          itemBuilder: (BuildContext context, int index) {
+            return Container(
+              height: 50,
+              child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: _listBooks[index]),
+            );
+          },
+          separatorBuilder: (BuildContext context, int index) => const Divider()
+      );
+    }else{
+      return Center(
+          child: Image.asset(
+          "images/no-result.png",
+        )
+      );
+    }
+  }
+
+  Widget _getAppbar(){
+    return AppbarBuilder()
+        .title('List of Books')
+        .actions([new AppbarActionItens(Icon(Icons.add), "Insert", this.widget.presenter.openDialog)])
+        .builder()
+        .show();
+
+  }
+
   MaterialApp _initView() {
     this.widget.presenter.select();
     return MaterialApp(
+        debugShowCheckedModeBanner:false,
         title: 'Books',
         home: Scaffold(
           key: _scaffoldKey,
-          appBar: AppBar(
-            title: Text('List of Books'),
-            backgroundColor: Colors.green,
-            actions: [IconButton(icon: const Icon(Icons.add),
-                            tooltip: 'Insert',
-                            onPressed: this.widget.presenter.openDialog)],
-          ),
-          body: ListView.separated(
-            padding: const EdgeInsets.all(8),
-            itemCount: _listBooks.length,
-            itemBuilder: (BuildContext context, int index) {
-              return Container(
-                height: 50,
-                child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: _listBooks[index]),
-              );
-            },
-            separatorBuilder: (BuildContext context, int index) => const Divider()
-          ),
+          appBar: _getAppbar(),
+          body: _getBody(),
           drawer: _getDrawer(),
         ),
     );
