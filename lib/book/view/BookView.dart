@@ -3,6 +3,8 @@ import 'package:biblioteca/book/model/Book.dart';
 import 'package:biblioteca/book/presenter/BookPresenter.dart';
 import 'package:biblioteca/modules/ui/dialog/Dialog.dart';
 import 'package:biblioteca/modules/ui/dialog/enum/DialogType.dart';
+import 'package:biblioteca/modules/ui/drawer/DrawerUi.dart';
+import 'package:biblioteca/modules/ui/drawer/MenuFactory.dart';
 import 'package:biblioteca/modules/ui/list/ListAdapter.dart';
 import 'package:flutter/material.dart';
 
@@ -37,7 +39,6 @@ class _BookView extends State<BookViewImpl> implements BookView{
   @override
   void initState() {
     super.initState();
-    this.widget.presenter.setView(this);
   }
 
   @override
@@ -98,6 +99,15 @@ class _BookView extends State<BookViewImpl> implements BookView{
         .open();
   }
 
+  Widget _getDrawer(){
+    return DrawerBuilder()
+        .context(context)
+        .header( DrawerItem("Drawer Header"))
+        .menus(MenuFactory().createMenu(context))
+        .build()
+        .open();
+  }
+
   MaterialApp _initView() {
     this.widget.presenter.select();
     return MaterialApp(
@@ -124,6 +134,7 @@ class _BookView extends State<BookViewImpl> implements BookView{
             },
             separatorBuilder: (BuildContext context, int index) => const Divider()
           ),
+          drawer: _getDrawer(),
         ),
     );
   }
@@ -131,6 +142,9 @@ class _BookView extends State<BookViewImpl> implements BookView{
   @override
   Widget build(BuildContext context) {
     this.context = context;
+    if(this.widget.presenter.getView() == null) {
+      this.widget.presenter.setView(this);
+    }
     return this._initView();
   }
   

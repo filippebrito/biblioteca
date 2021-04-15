@@ -1,11 +1,9 @@
-import 'package:biblioteca/book/presenter/BookPresenter.dart';
+import 'package:biblioteca/modules/ui/drawer/MenuFactory.dart';
 import 'package:flutter/material.dart';
-import 'package:biblioteca/book/view/BookView.dart';
 
-void main() => runApp(MaterialApp(
+void main() => runApp(
+  MaterialApp(
   title: 'Library Routes',
   initialRoute: '/',
-  routes: {
-    '/': (context) => BookViewImpl(BookPresenterImpl())
-  },
+  routes: MenuFactory().createRoutes(),
 ));
