@@ -11,15 +11,23 @@ class ListAdapter{
     for(int i=0; i<books.length; i++) {
       listWidget.add(
           ListTile(
-            title: Text(books[i].name,
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(books[i].name,
                 style:
-                TextStyle(color: Colors.blueGrey,
+                  TextStyle(color: Colors.blueGrey,
                     fontWeight: FontWeight.bold,
                     fontSize: 20.0)),
-            onTap: (){ presenter.openDialog(type: DialogType.EDIT , book: books[i]); },
-            onLongPress: (){ presenter.openTextDialog(books[i]); },
-          )
-      );
+                Icon(
+                  Icons.more_vert,
+                  color: Colors.blueGrey,
+                )
+              ]
+            ),
+            onTap: (){ presenter.openBottomSheet(books[i]); },
+            //onLongPress: (){ presenter.openTextDialog(books[i]); },
+      ));
     }
 
     return listWidget;
