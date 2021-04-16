@@ -2,6 +2,7 @@
 import 'package:biblioteca/book/model/Book.dart';
 import 'package:biblioteca/book/presenter/BookPresenter.dart';
 import 'package:biblioteca/modules/alerts/Alert.dart';
+import 'package:biblioteca/modules/bottomsheet/BottomSheetComponent.dart';
 import 'package:biblioteca/modules/ui/appbar/Appbar.dart';
 import 'package:biblioteca/modules/ui/dialog/Dialog.dart';
 import 'package:biblioteca/modules/ui/dialog/enum/DialogType.dart';
@@ -11,12 +12,14 @@ import 'package:biblioteca/modules/ui/list/ListAdapter.dart';
 import 'package:flutter/material.dart';
 
 
+
 abstract class BookView{
   void updateBooks(List<Book> books);
   void updateDialogText(String text);
   void updateBook(Book book);
   Future<void> openDialog({DialogType type: DialogType.INSERT, Book book});
   Future<void> openTextDialog(Book book);
+  void openBottomSheet(Book book);
   void closeDialog();
   void showMessage(String message, AlertType type);
 }
@@ -143,6 +146,34 @@ class _BookView extends State<BookViewImpl> implements BookView{
         )
       );
     }
+  }
+
+  @override
+  void openBottomSheet(Book book) {
+    BottomSheetComponent bottomSheet = BottomSheetComponent(
+        context,
+        book.name,
+        listItems: [
+          new BottomSheetItems(
+              'Edit',
+              icon:Icons.edit,
+              onTap: () {
+                this.widget.presenter.closeDialog();
+                this.widget.presenter.openDialog(type: DialogType.EDIT , book: book);
+              },
+          ),
+          new BottomSheetItems(
+            'Delete',
+            icon:Icons.delete,
+            color: Colors.red,
+            onTap: () {
+              this.widget.presenter.closeDialog();
+              this.widget.presenter.openTextDialog(book);
+            },
+          )
+        ]
+    );
+    bottomSheet.show();
   }
 
   Widget _getAppbar(){

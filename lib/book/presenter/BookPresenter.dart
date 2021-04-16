@@ -10,10 +10,12 @@ abstract class BookPresenter {
   void openDialog({DialogType type: DialogType.INSERT, Book book});
   void openTextDialog(Book book);
   void cleanCloseDialog();
+  void closeDialog();
   void insertEdit(DialogType type, Book book);
   void select();
   void delete(Book book);
   void updateName(Book book, String name);
+  void openBottomSheet(Book book);
 }
 
 class BookPresenterImpl implements BookPresenter{
@@ -48,8 +50,18 @@ class BookPresenterImpl implements BookPresenter{
   }
 
   @override
+  void openBottomSheet(Book book){
+    this.view.openBottomSheet(book);
+  }
+
+  @override
   void cleanCloseDialog(){
     this.view.updateDialogText("");
+    this.view.closeDialog();
+  }
+
+  @override
+  void closeDialog(){
     this.view.closeDialog();
   }
 
