@@ -1,7 +1,6 @@
 
 import 'package:biblioteca/book/model/Book.dart';
 import 'package:biblioteca/book/presenter/BookPresenter.dart';
-import 'package:biblioteca/modules/ui/dialog/enum/DialogType.dart';
 import 'package:flutter/material.dart';
 
 class ListAdapter{
