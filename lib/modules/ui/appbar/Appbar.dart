@@ -7,7 +7,7 @@ class AppbarUI{
 
   AppbarUI(String title, {List<AppbarActionItens> actions}){
     this._title = title;
-    this._actions = actions;
+    this._actions = actions != null ? actions : [];
   }
 
   Widget show(){

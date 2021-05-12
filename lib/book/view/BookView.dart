@@ -11,8 +11,6 @@ import 'package:biblioteca/modules/ui/drawer/MenuFactory.dart';
 import 'package:biblioteca/modules/ui/list/ListAdapter.dart';
 import 'package:flutter/material.dart';
 
-
-
 abstract class BookView{
   void updateBooks(List<Book> books);
   void updateDialogText(String text);
