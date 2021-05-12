@@ -3,6 +3,7 @@ import 'package:biblioteca/book/model/Book.dart';
 import 'package:biblioteca/book/presenter/BookPresenter.dart';
 import 'package:biblioteca/modules/alerts/Alert.dart';
 import 'package:biblioteca/modules/bottomsheet/BottomSheetComponent.dart';
+import 'package:biblioteca/modules/ui/BaseView.dart';
 import 'package:biblioteca/modules/ui/appbar/Appbar.dart';
 import 'package:biblioteca/modules/ui/dialog/Dialog.dart';
 import 'package:biblioteca/modules/ui/dialog/enum/DialogType.dart';
@@ -31,7 +32,7 @@ class BookViewImpl extends StatefulWidget {
   _BookView createState() => _BookView();
 }
 
-class _BookView extends State<BookViewImpl> implements BookView{
+class _BookView extends State<BookViewImpl> implements BookView, BaseView{
 
 
   final _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -113,7 +114,46 @@ class _BookView extends State<BookViewImpl> implements BookView{
         .open();
   }
 
-  Widget _getDrawer(){
+  @override
+  void openBottomSheet(Book book) {
+    BottomSheetComponent bottomSheet = BottomSheetComponent(
+        context,
+        book.name,
+        listItems: [
+          new BottomSheetItems(
+            'Edit',
+            icon:Icons.edit,
+            onTap: () {
+              this.widget.presenter.closeDialog();
+              this.widget.presenter.openDialog(type: DialogType.EDIT , book: book);
+            },
+          ),
+          new BottomSheetItems(
+            'Delete',
+            icon:Icons.delete,
+            color: Colors.red,
+            onTap: () {
+              this.widget.presenter.closeDialog();
+              this.widget.presenter.openTextDialog(book);
+            },
+          )
+        ]
+    );
+    bottomSheet.show();
+  }
+
+  @override
+  Widget getAppbar(){
+    return AppbarBuilder()
+        .title('List of Books')
+        .actions([new AppbarActionItens(Icon(Icons.add), "Insert", this.widget.presenter.openDialog)])
+        .builder()
+        .show();
+
+  }
+
+  @override
+  Widget getDrawer(){
     return DrawerBuilder()
         .context(context)
         .header( DrawerItem("Drawer Header"))
@@ -122,7 +162,8 @@ class _BookView extends State<BookViewImpl> implements BookView{
         .open();
   }
 
-  Widget _getBody(){
+  @override
+  Widget getBody(){
     if(_listBooks.length > 0){
       return ListView.separated(
           padding: const EdgeInsets.all(8),
@@ -146,43 +187,6 @@ class _BookView extends State<BookViewImpl> implements BookView{
     }
   }
 
-  @override
-  void openBottomSheet(Book book) {
-    BottomSheetComponent bottomSheet = BottomSheetComponent(
-        context,
-        book.name,
-        listItems: [
-          new BottomSheetItems(
-              'Edit',
-              icon:Icons.edit,
-              onTap: () {
-                this.widget.presenter.closeDialog();
-                this.widget.presenter.openDialog(type: DialogType.EDIT , book: book);
-              },
-          ),
-          new BottomSheetItems(
-            'Delete',
-            icon:Icons.delete,
-            color: Colors.red,
-            onTap: () {
-              this.widget.presenter.closeDialog();
-              this.widget.presenter.openTextDialog(book);
-            },
-          )
-        ]
-    );
-    bottomSheet.show();
-  }
-
-  Widget _getAppbar(){
-    return AppbarBuilder()
-        .title('List of Books')
-        .actions([new AppbarActionItens(Icon(Icons.add), "Insert", this.widget.presenter.openDialog)])
-        .builder()
-        .show();
-
-  }
-
   MaterialApp _initView() {
     this.widget.presenter.select();
     return MaterialApp(
@@ -190,9 +194,9 @@ class _BookView extends State<BookViewImpl> implements BookView{
         title: 'Books',
         home: Scaffold(
           key: _scaffoldKey,
-          appBar: _getAppbar(),
-          body: _getBody(),
-          drawer: _getDrawer(),
+          appBar: getAppbar(),
+          body: getBody(),
+          drawer: getDrawer(),
         ),
     );
   }

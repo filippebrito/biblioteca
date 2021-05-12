@@ -13,11 +13,26 @@ class ListAdapter{
             title: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(books[i].name,
-                style:
-                  TextStyle(color: Colors.blueGrey,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20.0)),
+                Row(
+                  children: [
+                    Image.asset(books[i].image),
+                    Padding(padding: EdgeInsets.only(right: 10.0),),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(books[i].name,
+                            style:
+                            TextStyle(color: Colors.blueGrey,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20.0)),
+                        Text("Pages: 120",
+                            style:
+                            TextStyle(color: Colors.blueGrey.withOpacity(0.6),
+                                fontSize: 14.0,
+                            )),
+                      ],
+                    ),
+                ]),
                 Icon(
                   Icons.more_vert,
                   color: Colors.blueGrey,
