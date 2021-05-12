@@ -1,5 +1,7 @@
 import 'package:biblioteca/book/view/BookView.dart';
 import 'package:biblioteca/modules/ui/drawer/DrawerUi.dart';
+import 'package:biblioteca/settings/presenter/SettingsPresenter.dart';
+import 'package:biblioteca/settings/view/SettingsView.dart';
 import 'package:flutter/material.dart';
 import 'package:biblioteca/book/presenter/BookPresenter.dart';
 
@@ -44,11 +46,23 @@ class MenuFactory{
             callback: (){
               Navigator.pop(context);
               Navigator.pushNamed(context, "/");
-              },
+            },
             redirect: (context) => BookViewImpl(BookPresenterImpl()),
             subtitle: "books crud",
             icon: Icon(Icons.book)
-            )
+        )
+    );
+    _list.add(
+        DrawerItem(
+            "Settings",
+            route: "/settings",
+            callback: (){
+              Navigator.pop(context);
+              Navigator.pushNamed(context, "/settings");
+            },
+            redirect: (context) => SettingsViewImpl(SettingsPresenterImpl()),
+            icon: Icon(Icons.settings)
+        )
     );
 
     return _list;
